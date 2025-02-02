@@ -100,6 +100,6 @@ def scrape_forecast_data(base_url, start_year, end_year, output_file):
 base_url = "https://utahavalanchecenter.org/forecast/salt-lake"
 start_year = 2021
 end_year = 2021
-output_file = "/0_WebScrapper/avalanche_forecast_data.csv"
+output_file = "/0_WebScraper/04_product/avalanche_forecast_data.csv"
 
 scrape_forecast_data(base_url, start_year, end_year, output_file)
