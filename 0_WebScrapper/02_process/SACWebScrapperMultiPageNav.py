@@ -69,7 +69,8 @@ def scrape(html : str) -> dict:
         return None
 
 
-list_of_base_urls = ["https://www.sierraavalanchecenter.org/forecasts/#/central-sierra-nevada", "https://www.sierraavalanchecenter.org/forecasts/?collapsethemenu=yes#/forecast/1/136315", "https://www.sierraavalanchecenter.org/forecasts/?collapsethemenu=yes#/forecast/1/124682", "https://www.sierraavalanchecenter.org/forecasts/?collapsethemenu=yes#/forecast/1/111010"]
+list_of_base_urls = ["https://www.sierraavalanchecenter.org/forecasts/#/central-sierra-nevada"]
+
 
 for url in list_of_base_urls:
     chrome_options = Options()
