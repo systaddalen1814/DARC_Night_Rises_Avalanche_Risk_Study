@@ -59,8 +59,8 @@ for i in range(0,10):
         new_row.month = re.search(
             r"\b(January|February|March|April|May|June|July|August|September|October|November|December)\b",
             column.get_text()).group(1)
-        new_row.day = re.search(r"(\b\d+\b)", column.get_text()).group(1)
-        new_row.year = re.search(r"(\b\d\d\d\d\b)", column.get_text()).group(1)
+        new_row.day = re.search(r"(\b\d{1,2}\b)", column.get_text()).group(1)
+        new_row.year = re.search(r"(\b\d{4}\b)", column.get_text()).group(1)
         new_row.report = column.get_text()
         Data = Data._append(new_row.getRow(), ignore_index=True)
 
