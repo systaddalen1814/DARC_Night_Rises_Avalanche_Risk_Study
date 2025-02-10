@@ -58,7 +58,7 @@ def scrape(html : str) -> dict:
         new_row = Data_ROW()
 
         new_row.month = re.search(r"\b(January|February|March|April|May|June|July|August|September|October|November|December)\b", date_text).group(1)
-        new_row.day = re.search(r"(\b\d+\b)", date_text).group(1)
+        new_row.day = re.search(r"(\b\d{1,2}\b)", date_text).group(1)
         new_row.year = re.search(r"(\b\d\d\d\d\b)", date_text).group(1)
         new_row.report = bottom_line_text
         new_row.danger_rating = re.search(r"(\d)", danger_text).group(1)
