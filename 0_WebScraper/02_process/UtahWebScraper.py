@@ -4,6 +4,7 @@ from datetime import datetime
 import time
 import csv
 import random
+import os
 
 # Function to extract data from a single forecast page
 def extract_forecast_data(url, expected_date):
@@ -72,7 +73,7 @@ def scrape_forecast_data(base_url, start_year, end_year, output_file):
     # Iterate over each year in reverse order (2024 → 2020)
     for year in range(start_year, end_year - 1, -1):
         # Iterate from March (3) back to November (11)
-        for month in [12, 11]: ### Temprorary, switch back to [4,3,2,1,12,11,10]
+        for month in [4,3,2,1,12,11,10]: ### Temprorary, switch back to [4,3,2,1,12,11,10]
             for day in range(31, 0, -1):  # Iterate backward from 31 to 1
                 try:
                     expected_date = datetime(year, month, day).date()
@@ -96,10 +97,30 @@ def scrape_forecast_data(base_url, start_year, end_year, output_file):
 
     print(f"\n Data successfully saved to {output_file} with {len(results)} records.")
 
-# Example usage:
-base_url = "https://utahavalanchecenter.org/forecast/salt-lake"
-start_year = 2021
-end_year = 2021
-output_file = "/0_WebScraper/04_product/avalanche_forecast_data.csv"
+# Usage:
+start_year = 2024 # Higher number
+end_year = 2014
+output_folder = os.path.join(os.path.dirname(__file__), "..", "03_increment")
+os.makedirs(output_folder, exist_ok=True)
+output_file = os.path.join(output_folder, "avalanche_forecast_data.csv")
 
+
+base_url = "https://utahavalanchecenter.org/forecast/salt-lake"
+output_file = os.path.join(output_folder, "SLA_forecast_data.csv")
+scrape_forecast_data(base_url, start_year, end_year, output_file)
+
+base_url = "https://utahavalanchecenter.org/forecast/logan"
+output_file = os.path.join(output_folder, "Logan_forecast_data.csv")
+scrape_forecast_data(base_url, start_year, end_year, output_file)
+
+base_url = "https://utahavalanchecenter.org/forecast/odgen"
+output_file = os.path.join(output_folder, "Odgen_forecast_data.csv")
+scrape_forecast_data(base_url, start_year, end_year, output_file)
+
+base_url = "https://utahavalanchecenter.org/forecast/provo"
+output_file = os.path.join(output_folder, "Provo_forecast_data.csv")
+scrape_forecast_data(base_url, start_year, end_year, output_file)
+
+base_url = "https://utahavalanchecenter.org/forecast/moab"
+output_file = os.path.join(output_folder, "Moab_forecast_data.csv")
 scrape_forecast_data(base_url, start_year, end_year, output_file)
