@@ -8,8 +8,8 @@ input_folder = os.path.join(os.path.dirname(__file__), "..", "03_increment")
 output_folder = os.path.join(os.path.dirname(__file__), "..", "04_product")
 os.makedirs(output_folder, exist_ok=True)
 
-# Define avalanche risk levels
-risk_levels = ["Extreme", "High", "Considerable", "Moderate", "Low"]
+# Define avalanche risk levels in priority order (highest first)
+risk_levels = ["EXTREME", "HIGH", "CONSIDERABLE", "MODERATE", "LOW"]
 categorized_data = {level: [] for level in risk_levels}
 
 # Get all CSV files from input folder
@@ -28,18 +28,18 @@ for file in csv_files:
         print(f"Skipping {file} - Missing required columns")
         continue
 
-    # Categorize each row based on the highest danger level found
+    # Categorize each row based on the highest danger level found in uppercase
     for _, row in df.iterrows():
-        message = str(row["Danger Message"]).lower()
-        highest_level = None  # Track the highest risk level found
+        message = str(row["Danger Message"])
 
-        for level in risk_levels:
-            if level.lower() in message:
-                highest_level = level  # Assign the highest level found
-                break  # Stop checking once we find the highest risk
+        # Check for the highest uppercase danger level
+        highest_level = "LOW"  # Default if no risk level is found
+        for level in risk_levels[:-1]:  # Exclude "LOW" from search
+            if f" {level} " in f" {message} ":  # Ensure whole word matching
+                highest_level = level
+                break  # Stop once the highest level is found
 
-        if highest_level:
-            categorized_data[highest_level].append(row)
+        categorized_data[highest_level].append(row)
 
 # Write categorized data to separate CSV files
 for level, rows in categorized_data.items():
