@@ -20,6 +20,9 @@ for file in csv_files:
     file_path = os.path.join(input_folder, file)
     print(f"Processing {file_path}...")
 
+    # Extract the source region name from the filename (e.g., "Logan" from "Logan_forecast_data.csv")
+    region_name = file.replace("_forecast_data.csv", "")
+
     # Read CSV file
     df = pd.read_csv(file_path)
 
@@ -39,7 +42,14 @@ for file in csv_files:
                 highest_level = level
                 break  # Stop once the highest level is found
 
-        categorized_data[highest_level].append(row)
+        # Append the row as a dictionary with the new "Source" column
+        categorized_data[highest_level].append({
+            "Month": row["Month"],
+            "Day": row["Day"],
+            "Year": row["Year"],
+            "Danger Message": row["Danger Message"],
+            "Source": region_name  # Add the source region
+        })
 
 # Write categorized data to separate CSV files
 for level, rows in categorized_data.items():
