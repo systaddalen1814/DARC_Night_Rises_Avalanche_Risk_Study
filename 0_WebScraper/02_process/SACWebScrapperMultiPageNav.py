@@ -91,10 +91,11 @@ for url in list_of_base_urls:
             print(f"Error Collectiong Data From {driver.current_url}")
             break
         add_map[new_row.danger_rating] = add_map[new_row.danger_rating]._append(new_row.getRow(), ignore_index=True)
+        print(new_row.getRow())
 
 
-    Data_LOW.to_csv("../04_product/avi_risk_SAC_MultiPage-LOW.csv")
-    Data_MODERATE.to_csv("../04_product/avi_risk_SAC_MultiPage-MODERATE.csv")
-    Data_CONSIDERABLE.to_csv("../04_product/avi_risk_SAC_MultiPage-CONSIDERABLE.csv")
-    Data_HIGH.to_csv("../04_product/avi_risk_SAC_MultiPage-HIGH.csv")
-    Data_EXTREME.to_csv("../04_product/avi_risk_SAC_MultiPage-EXTREME.csv")
+    add_map[1].to_csv("../04_product/avi_risk_SAC_MultiPage-LOW.csv")
+    add_map[2].to_csv("../04_product/avi_risk_SAC_MultiPage-MODERATE.csv")
+    add_map[3].to_csv("../04_product/avi_risk_SAC_MultiPage-CONSIDERABLE.csv")
+    add_map[4].to_csv("../04_product/avi_risk_SAC_MultiPage-HIGH.csv")
+    add_map[5].to_csv("../04_product/avi_risk_SAC_MultiPage-EXTREME.csv")

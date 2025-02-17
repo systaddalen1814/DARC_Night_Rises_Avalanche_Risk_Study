@@ -71,8 +71,8 @@ for i in range(0,10):
         new_row.report = column.get_text()
         add_map[new_row.danger_rating] = add_map[new_row.danger_rating]._append(new_row.getRow(), ignore_index=True)
 
-Data_LOW.to_csv("../04_product/avi_risk_SAC-LOW.csv")
-Data_MODERATE.to_csv("../04_product/avi_risk_SAC-MODERATE.csv")
-Data_CONSIDERABLE.to_csv("../04_product/avi_risk_SAC-CONSIDERABLE.csv")
-Data_HIGH.to_csv("../04_product/avi_risk_SAC-HIGH.csv")
-Data_EXTREME.to_csv("../04_product/avi_risk_SAC-EXTREME.csv")
+add_map[1].to_csv("../04_product/avi_risk_SAC-LOW.csv")
+add_map[2].to_csv("../04_product/avi_risk_SAC-MODERATE.csv")
+add_map[3].to_csv("../04_product/avi_risk_SAC-CONSIDERABLE.csv")
+add_map[4].to_csv("../04_product/avi_risk_SAC-HIGH.csv")
+add_map[5].to_csv("../04_product/avi_risk_SAC-EXTREME.csv")
