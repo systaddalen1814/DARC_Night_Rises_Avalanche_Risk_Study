@@ -7,7 +7,13 @@ from selenium.webdriver.support import expected_conditions as EC
 import re
 import pandas as pd
 
-Data = pd.DataFrame({"day":[],"month":[],"year":[],"report":[],"danger_rating":[]})
+Data_LOW = pd.DataFrame({"month":[], "day":[], "year":[],"Danger Message":[],"source":[]})
+Data_MODERATE = pd.DataFrame({"month":[], "day":[], "year":[],"Danger Message":[],"source":[]})
+Data_CONSIDERABLE = pd.DataFrame({"month":[], "day":[], "year":[],"Danger Message":[],"source":[]})
+Data_HIGH = pd.DataFrame({"month":[], "day":[], "year":[],"Danger Message":[],"source":[]})
+Data_EXTREME = pd.DataFrame({"month":[], "day":[], "year":[],"Danger Message":[],"source":[]})
+
+add_map = {1 : Data_LOW, 2 : Data_MODERATE, 3 : Data_CONSIDERABLE, 4 : Data_HIGH, 5 : Data_EXTREME}
 
 class Data_ROW:
     '''
@@ -19,11 +25,12 @@ class Data_ROW:
         self.year : int = 0
         self.report : str = ""
         self.danger_rating : int = 0
+        self.source : str = "SAC"
     def getRow(self) -> dict:
         '''
         :return: Outputs a properly formated new row that can be added to Data
         '''
-        return {"day" : self.day, "month" : self.month, "year" : self.year, "report" : self.report, "danger_rating" : self.danger_rating}
+        return {"month" : self.day, "day" : self.month, "year" : self.year, "Danger Message" : self.report, "source" : self.source}
 
 
 def incr_url_via_button_press(button_CSS_Selector : str) -> str:
@@ -44,7 +51,7 @@ def incr_url_via_button_press(button_CSS_Selector : str) -> str:
     except ModuleNotFoundError:
         return None
 
-def scrape(html : str) -> dict:
+def scrape(html : str) -> Data_ROW:
     '''
     :param html: this is raw string html
     :return: data that is a row of the database in the form output by Data_ROW
@@ -61,9 +68,9 @@ def scrape(html : str) -> dict:
         new_row.day = re.search(r"(\b\d{1,2}\b)", date_text).group(1)
         new_row.year = re.search(r"(\b\d\d\d\d\b)", date_text).group(1)
         new_row.report = bottom_line_text
-        new_row.danger_rating = re.search(r"(\d)", danger_text).group(1)
+        new_row.danger_rating = int(re.search(r"(\d)", danger_text).group(1))
 
-        return new_row.getRow()
+        return new_row
     except Exception as e:
         print(e)
         return None
@@ -83,7 +90,11 @@ for url in list_of_base_urls:
         if new_row == None:
             print(f"Error Collectiong Data From {driver.current_url}")
             break
-        Data = Data._append(new_row, ignore_index=True)
+        add_map[new_row.danger_rating] = add_map[new_row.danger_rating]._append(new_row.getRow(), ignore_index=True)
 
 
-    Data.to_csv("../04_product/avi_risk_SAC_MultiPage.csv")
+    Data_LOW.to_csv("../04_product/avi_risk_SAC_MultiPage-LOW.csv")
+    Data_MODERATE.to_csv("../04_product/avi_risk_SAC_MultiPage-MODERATE.csv")
+    Data_CONSIDERABLE.to_csv("../04_product/avi_risk_SAC_MultiPage-CONSIDERABLE.csv")
+    Data_HIGH.to_csv("../04_product/avi_risk_SAC_MultiPage-HIGH.csv")
+    Data_EXTREME.to_csv("../04_product/avi_risk_SAC_MultiPage-EXTREME.csv")

@@ -1,0 +1,4 @@
+python3 CAIC_scrapper.py
+python3 SACWebScrapper.py
+python3 SACWebScrapperMultiPage.py
+python3 SLAWebSraper.py

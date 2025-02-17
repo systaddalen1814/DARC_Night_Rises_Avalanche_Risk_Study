@@ -3,7 +3,13 @@ from bs4 import BeautifulSoup
 import pandas as pd
 import re
 
-Data = pd.DataFrame({"day":[],"month":[],"year":[],"report":[],"danger_rating":[]})
+Data_LOW = pd.DataFrame({"month":[], "day":[], "year":[],"Danger Message":[],"source":[]})
+Data_MODERATE = pd.DataFrame({"month":[], "day":[], "year":[],"Danger Message":[],"source":[]})
+Data_CONSIDERABLE = pd.DataFrame({"month":[], "day":[], "year":[],"Danger Message":[],"source":[]})
+Data_HIGH = pd.DataFrame({"month":[], "day":[], "year":[],"Danger Message":[],"source":[]})
+Data_EXTREME = pd.DataFrame({"month":[], "day":[], "year":[],"Danger Message":[],"source":[]})
+
+add_map = {1 : Data_LOW, 2 : Data_MODERATE, 3 : Data_CONSIDERABLE, 4 : Data_HIGH, 5 : Data_EXTREME}
 
 class Data_ROW:
     '''
@@ -15,11 +21,12 @@ class Data_ROW:
         self.year : int = 0
         self.report : str = ""
         self.danger_rating : int = 0
+        self.source : str = "SAC"
     def getRow(self) -> dict:
         '''
         :return: Outputs a properly formated new row that can be added to Data
         '''
-        return {"day" : self.day, "month" : self.month, "year" : self.year, "report" : self.report, "danger_rating" : self.danger_rating}
+        return {"month" : self.day, "day" : self.month, "year" : self.year, "Danger Message" : self.report, "source" : self.source}
 
 def DangerNumber(danger : str) -> int:
     match danger:
@@ -62,6 +69,10 @@ for i in range(0,10):
         new_row.day = re.search(r"(\b\d{1,2}\b)", column.get_text()).group(1)
         new_row.year = re.search(r"(\b\d{4}\b)", column.get_text()).group(1)
         new_row.report = column.get_text()
-        Data = Data._append(new_row.getRow(), ignore_index=True)
+        add_map[new_row.danger_rating] = add_map[new_row.danger_rating]._append(new_row.getRow(), ignore_index=True)
 
-Data.to_csv("../04_product/Prev_2021_avi_SAC_Data.csv")
+Data_LOW.to_csv("../04_product/avi_risk_SAC-LOW.csv")
+Data_MODERATE.to_csv("../04_product/avi_risk_SAC-MODERATE.csv")
+Data_CONSIDERABLE.to_csv("../04_product/avi_risk_SAC-CONSIDERABLE.csv")
+Data_HIGH.to_csv("../04_product/avi_risk_SAC-HIGH.csv")
+Data_EXTREME.to_csv("../04_product/avi_risk_SAC-EXTREME.csv")
