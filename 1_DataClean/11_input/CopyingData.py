@@ -20,8 +20,8 @@ def copy_files(src_folder, dest_folder):
     
     print("All files copied successfully.")
 
-# Example usage
-source_folder = "path/to/source/folder"  # Change this to your source folder path
-destination_folder = "path/to/destination/folder"  # Change this to your destination folder path
+
+source_folder = os.path.join(os.path.dirname(__file__), "..", "..", "0_WebScraper", "04_product")
+destination_folder = os.path.join(os.path.dirname(__file__))
 
 copy_files(source_folder, destination_folder)
