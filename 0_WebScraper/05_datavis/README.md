@@ -1,8 +1,4 @@
-{\rtf1\ansi\ansicpg1252\cocoartf2821
-\cocoatextscaling0\cocoaplatform0{\fonttbl\f0\fswiss\fcharset0 Helvetica;}
-{\colortbl;\red255\green255\blue255;}
-{\*\expandedcolortbl;;}
-\margl1440\margr1440\vieww11520\viewh8400\viewkind0
-\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural\partightenfactor0
+### 0_WebScrapper
 
-\f0\fs24 \cf0 Initial data visualization to check for missing data on the original web scraper data.}
+The python files found here are what produce the avalanche risk messages in the CSV files found in 04_product.
+These CSVs are unjoined and have inconsitent schema. 
