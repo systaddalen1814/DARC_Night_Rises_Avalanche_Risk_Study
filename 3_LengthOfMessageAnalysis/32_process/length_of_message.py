@@ -17,6 +17,7 @@ def main():
         dict_of_message_len_by_center[key] = get_avg_length(combo_dataframe[combo_dataframe["Source"] == key]["Danger Message"])
 
     plt.bar(dict_of_message_len_by_center.keys(), dict_of_message_len_by_center.values())
+    plt.savefig("../35_datavis")
     plt.show()
 
 
