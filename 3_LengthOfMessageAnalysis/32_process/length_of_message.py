@@ -1,4 +1,5 @@
 import pandas as pd
+import matplotlib.pyplot as plt
 
 
 def get_avg_length(column : pd.Series):
@@ -15,7 +16,8 @@ def main():
     for key in dict_of_message_len_by_center.keys():
         dict_of_message_len_by_center[key] = get_avg_length(combo_dataframe[combo_dataframe["Source"] == key]["Danger Message"])
 
-
+    plt.bar(dict_of_message_len_by_center.keys(), dict_of_message_len_by_center.values())
+    plt.show()
 
 
 if __name__ == '__main__':
