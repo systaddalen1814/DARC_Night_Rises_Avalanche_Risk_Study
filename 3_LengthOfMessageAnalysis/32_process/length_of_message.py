@@ -7,7 +7,6 @@ import re
 def get_avg_length(column : pd.Series):
     total = 0
     for data in column.values:
-        print(data)
         total += len(re.sub(r'[^a-zA-Z0-9]', '', data))
     if column.empty:
         return 0
