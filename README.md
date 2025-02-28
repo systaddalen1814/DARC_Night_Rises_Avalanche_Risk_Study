@@ -17,6 +17,11 @@ each CSV to see where we had missing data.
 
 ## 1_DataClean
 
-We will remove any rows with missing data for the messages. We
-could generate a histogram or series of histograms to count the number of observations
+We removed any rows with missing data for the messages. We
+generated series of histograms to count the number of observations
 from each site and at each risk level.
+
+## 2_DataCombination
+
+We amalgamated the cleaned data into one csv for future NLP analysis. After preprocessing and combination, we developed data graphics to help understand our data in preparation for NLP.
+
