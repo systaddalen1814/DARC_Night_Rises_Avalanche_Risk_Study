@@ -14,7 +14,7 @@ def get_avg_length(column : pd.Series):
     return total / column.size
 
 def main():
-    directory = "../../2_DataCombination/24_product"
+    directory = "../31_input"
     for filename in os.listdir(directory):
         if filename.endswith('.csv'):
             file_path = os.path.join(directory, filename)
