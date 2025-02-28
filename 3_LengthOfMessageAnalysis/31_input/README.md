@@ -1,1 +1,1 @@
-## 31_input
+## 24_product
