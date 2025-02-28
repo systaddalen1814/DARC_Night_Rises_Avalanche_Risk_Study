@@ -31,7 +31,7 @@ def main():
                 plt.text(i, value, str(round(value, 0)), ha='center', va='bottom')
             plt.ylabel("Average Message Length")
             plt.xlabel("Message Source")
-            plt.title("Average Message Length of Messages from Different Sources")
+            plt.title("Average Message Length from Different Sources")
             plt.savefig(f"../35_datavis/{filename}.png")
             plt.show()
 
