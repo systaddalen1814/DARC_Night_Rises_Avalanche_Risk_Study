@@ -1,4 +1,3 @@
-library(yarrr)
 library(tidyverse)
 library(stringr)
 
@@ -55,12 +54,14 @@ for (file in file_list) {
   # Fit a one-way-anova to detect differences in message length
   message_aov <- aov(data = tempdata_df, formula = Message_Length ~ Source)
   print(summary(message_aov)) # Show an ANOVA summary
+  # Check model assumptions
   
   ## Run a Tukey's HSD to find out which sources are different from each other?
   
   # Fit a one-way-anova to detect differences in average word length
   word_aov <- aov(data = tempdata_df, formula = Avg_Word_Length ~ Source)
   print(summary(word_aov)) # Show an ANOVA summary
+  # Check model assumptions
   
   ## Run a Tukey's HSD to find out which sources are different from each other?
   
