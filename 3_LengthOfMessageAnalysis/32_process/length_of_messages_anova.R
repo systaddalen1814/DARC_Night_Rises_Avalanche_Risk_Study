@@ -6,8 +6,8 @@ setwd("~/Desktop/Spring 2025/Capstone/DARC_Night_Rises_Avalanche_Risk_Study/3_Le
 file_list <- list.files(path = "31_input", pattern = "\\.csv$", full.names = TRUE)
 
 # Define common stopwords to remove
-stopwords <- c("the", "of", "and", "a", "to", "in", "is", "it", "you", "that", 
-               "he", "was", "for", "on", "are", "as", "with", "his", "they", "I")
+stopwords <- c("the", "of", "and", "a", "an", "at", "to", "in", "is", "it", "you", "that", 
+               "he", "was", "for", "on", "are", "as", "with", "his", "they", "there", "than", "I")
 
 # Function to remove stopwords from a given message
 remove_stopwords <- function(text, stopwords) {
@@ -52,33 +52,18 @@ for (file in file_list) {
       NA  # Avoid division by zero
     ))
   
-  # Generate pirateplot for Message Length
-  plot_filename1 <- file.path("35_datavis", paste0(file_name, "_length_plot.jpeg"))
+  # Fit a one-way-anova to detect differences in message length
+  message_aov <- aov(data = tempdata_df, formula = Message_Length ~ Source)
+  print(summary(message_aov)) # Show an ANOVA summary
   
-  jpeg(plot_filename1, width = 1280, height = 720, res = 120)  # Open JPEG device
-  pirateplot(
-    formula = Message_Length ~ Source,
-    data = tempdata_df,
-    main = paste("Length of Message by Location -", file_name),
-    xlab = "AC Location",
-    ylab = "Message Length (Num Characters)"
-  )
-  dev.off()  # Close the device
-  print(paste("Saved plot:", plot_filename1))
+  ## Run a Tukey's HSD to find out which sources are different from each other?
   
-  # Generate pirateplot for Average Word Length (after stopword removal)
-  plot_filename2 <- file.path("35_datavis", paste0(file_name, "_avg_word_length_plot.jpeg"))
+  # Fit a one-way-anova to detect differences in average word length
+  word_aov <- aov(data = tempdata_df, formula = Avg_Word_Length ~ Source)
+  print(summary(word_aov)) # Show an ANOVA summary
   
-  jpeg(plot_filename2, width = 1280, height = 720, res = 120)  # Open JPEG device
-  pirateplot(
-    formula = Avg_Word_Length ~ Source,
-    data = tempdata_df,
-    main = paste("Average Word Length (Excl. Stopwords) -", file_name),
-    xlab = "AC Location",
-    ylab = "Avg Word Length (Characters per Word)"
-  )
-  dev.off()  # Close the device
-  print(paste("Saved plot:", plot_filename2))
+  ## Run a Tukey's HSD to find out which sources are different from each other?
+  
 }
 
 print("Processing complete!")
