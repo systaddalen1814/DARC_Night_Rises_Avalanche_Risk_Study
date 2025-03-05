@@ -8,9 +8,10 @@ from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.naive_bayes import MultinomialNB
 from sklearn.metrics import classification_report
 from wordcloud import WordCloud, STOPWORDS
+import os
 
 # Load the dataset
-file_path = "/mnt/data/Master_Avalanche_Data.csv"
+file_path = "../../2_DataCombination/24_product/Master_Avalanche_Data.csv"
 df = pd.read_csv(file_path)
 
 # Selecting relevant columns
