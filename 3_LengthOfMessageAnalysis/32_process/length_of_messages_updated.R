@@ -24,22 +24,45 @@ for (file in file_list) {
     next
   }
   
-  # Calculate Message_Length
+  # Calculate Message_Length (excluding spaces)
   tempdata_df <- tempdata_df %>% 
     mutate(Message_Length = nchar(gsub(" ", "", Message)))
   
-  # Generate pirateplot
-  plot_filename <- file.path("35_datavis", paste0(file_name, "_length_plot.jpeg"))
+  # Calculate Avg_Word_Length
+  tempdata_df <- tempdata_df %>%
+    mutate(Avg_Word_Length = ifelse(
+      str_count(Message, "\\S+") > 0,  # Check if there are words
+      Message_Length / str_count(Message, "\\S+"),  # Divide by word count
+      NA  # Avoid division by zero
+    ))
   
-  jpeg(plot_filename, width = 1280, height = 720, res = 120)  # Open JPEG device
+  # Generate pirateplot for Message Length
+  plot_filename1 <- file.path("35_datavis", paste0(file_name, "_length_plot.jpeg"))
+  
+  jpeg(plot_filename1, width = 1280, height = 720, res = 120)  # Open JPEG device
   pirateplot(
     formula = Message_Length ~ Source,
     data = tempdata_df,
     main = paste("Length of Message by Location -", file_name),
     xlab = "AC Location",
-    ylab = "Message Length (Num Characters)",
+    ylab = "Message Length (Num Characters)"
   )
   dev.off()  # Close the device
+  print(paste("Saved plot:", plot_filename1))
   
-  print(paste("Saved plot:", plot_filename))
+  # Generate pirateplot for Average Word Length
+  plot_filename2 <- file.path("35_datavis", paste0(file_name, "_avg_word_length_plot.jpeg"))
+  
+  jpeg(plot_filename2, width = 1280, height = 720, res = 120)  # Open JPEG device
+  pirateplot(
+    formula = Avg_Word_Length ~ Source,
+    data = tempdata_df,
+    main = paste("Average Word Length by Location -", file_name),
+    xlab = "AC Location",
+    ylab = "Avg Word Length (Characters per Word)"
+  )
+  dev.off()  # Close the device
+  print(paste("Saved plot:", plot_filename2))
 }
+
+print("Processing complete!")
