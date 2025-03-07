@@ -6,8 +6,8 @@ setwd("~/Desktop/Spring 2025/Capstone/DARC_Night_Rises_Avalanche_Risk_Study/3_Le
 file_list <- list.files(path = "31_input", pattern = "\\.csv$", full.names = TRUE)
 
 # Define common stopwords to remove
-stopwords <- c("the", "of", "and", "a", "to", "in", "is", "it", "you", "that", 
-               "he", "was", "for", "on", "are", "as", "with", "his", "they", "I")
+stopwords <- c("the", "of", "and", "a", "an", "at", "to", "in", "is", "it", "you", "that", 
+               "he", "was", "for", "on", "are", "as", "with", "his", "they", "there", "than", "I")
 
 # Function to remove stopwords from a given message
 remove_stopwords <- function(text, stopwords) {
