@@ -23,11 +23,11 @@ def main():
 
             series : pd.Series = pd.Series(words_tfidf_avg)
             top30 : pd.Series = series.sort_values(ascending=False).head(30)
-
-            top30.plot(kind="bar", figsize=(20,10), xlabel="Words", ylabel="TFIDF", title=f"{os.path.basename(file)}")
+            name = os.path.basename(file).strip(".csv")
+            top30.plot(kind="bar", figsize=(20,10), xlabel="Words", ylabel="TFIDF", title=f"{name}")
             # Plot using a horizontal bar chart for clarity
             plt.tight_layout()
-            name = os.path.basename(file).strip(".csv")
+
             plt.savefig(os.path.join(output_path, f"{name}.png"))
 
 
