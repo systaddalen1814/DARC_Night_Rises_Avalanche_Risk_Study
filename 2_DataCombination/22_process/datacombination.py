@@ -23,6 +23,9 @@ def combine(src_folder, dest_folder):
         "5": "extreme"
     }
 
+    # Define Utah locations
+    utah_locations = {"ogden", "logan", "sla", "provo", "moab"}  # Use a set for faster lookups
+
     for file_name in os.listdir(src_folder):
         src_file = os.path.join(src_folder, file_name)
 
@@ -30,6 +33,11 @@ def combine(src_folder, dest_folder):
         if os.path.isfile(src_file) and file_name.lower().endswith('.csv'):
             try:
                 df = pd.read_csv(src_file)
+
+                # Normalize "source" column before categorizing
+                if 'Source' in df.columns:
+                    df['Source'] = df['Source'].astype(str).str.strip().str.lower()
+                    df.loc[df['Source'].isin(utah_locations), 'Source'] = 'Utah'
 
                 # Assign file to appropriate risk level based on filename keywords
                 assigned = False

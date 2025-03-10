@@ -5,8 +5,7 @@ setwd("~/Desktop/Spring 2025/Capstone/DARC_Night_Rises_Avalanche_Risk_Study/3_Le
 file_list <- list.files(path = "31_input", pattern = "\\.csv$", full.names = TRUE)
 
 # Define common stopwords to remove
-stopwords <- c("the", "of", "and", "a", "an", "at", "to", "in", "is", "it", "you", "that", 
-               "he", "was", "for", "on", "are", "as", "with", "his", "they", "there", "than", "I")
+stopwords <- scan("../2_DataCombination/24_product/stopwords.txt", what = character(), sep = "\n")
 
 # Function to remove stopwords from a given message
 remove_stopwords <- function(text, stopwords) {
@@ -37,7 +36,8 @@ for (file in file_list) {
   
   # Remove stopwords from messages
   tempdata_df <- tempdata_df %>%
-    mutate(Cleaned_Message = map_chr(Message, remove_stopwords, stopwords))
+    #mutate(Cleaned_Message = map_chr(Message, remove_stopwords, stopwords))
+    mutate(Cleaned_Message = Message)
   
   # Calculate Message_Length (excluding spaces)
   tempdata_df <- tempdata_df %>% 
@@ -52,19 +52,21 @@ for (file in file_list) {
     ))
   
   # Fit a one-way-anova to detect differences in message length
-  message_aov <- aov(data = tempdata_df, formula = Message_Length ~ Source)
-  print(summary(message_aov)) # Show an ANOVA summary
+  lm1 <- lm(data = tempdata_df, formula = Message_Length ~ Source)
+  print(anova(lm1)) # Show an ANOVA summary
   # Check model assumptions
+  par(mfrow=c(2,2))
+  print(plot(lm1))
   
   ## Run a Tukey's HSD to find out which sources are different from each other?
   
   # Fit a one-way-anova to detect differences in average word length
-  word_aov <- aov(data = tempdata_df, formula = Avg_Word_Length ~ Source)
-  print(summary(word_aov)) # Show an ANOVA summary
+  lm2 <- lm(data = tempdata_df, formula = Avg_Word_Length ~ Source)
+  print(anova(lm2)) # Show an ANOVA summary
   # Check model assumptions
+  par(mfrow=c(2,2))
+  print(plot(lm2))
   
   ## Run a Tukey's HSD to find out which sources are different from each other?
   
 }
-
-print("Processing complete!")
