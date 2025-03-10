@@ -1,6 +1,8 @@
 import os
 import pandas as pd
 
+### ONLY RUN THIS AFTER RUNNING DataClean.py OR IT WILL GET OVERRRIDEN
+
 def remove_duplicate_message(message_original):
     """
     Removes duplicate sentences if they occur exactly twice.
