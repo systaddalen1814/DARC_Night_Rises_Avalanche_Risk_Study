@@ -25,3 +25,14 @@ from each site and at each risk level.
 
 We amalgamated the cleaned data into one csv for future NLP analysis. After preprocessing and combination, we developed data graphics to help understand our data in preparation for NLP.
 
+## 3_LengthOfMessageAnalysis
+
+Looked at the message length both in total length and by length of individual words.
+Plots were generated to visualize the differences in the lengths.
+An lm and anova were fit to see if there were any statistically detectable differences.
+
+## 4_NLP
+
+## 5_TFIDF
+
+## 6_TFIDF_postprocessing
