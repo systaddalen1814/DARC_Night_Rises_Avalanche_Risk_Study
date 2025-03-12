@@ -37,6 +37,6 @@ def main():
     os.makedirs(output_path, exist_ok=True)
 
     # Save the resulting DataFrame to a CSV file
-    df.to_csv(os.path.join(output_path, "TF-IDF-comp.csv"))
+    df.sort_index(axis=1).to_csv(os.path.join(output_path, "TF-IDF-comp.csv"))
 if __name__ == "__main__":
     main()

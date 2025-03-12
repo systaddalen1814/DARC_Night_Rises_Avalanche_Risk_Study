@@ -23,7 +23,7 @@ def main():
                 source_to_message[c] = [str(x).lower() for x in data[data["Source"] == c]["Message"]]
                 X = vectorizer.fit_transform(source_to_message[c])
                 feature_names = vectorizer.get_feature_names_out()
-                pd.DataFrame(X.toarray(), columns=feature_names).to_csv(f"{output_path}/TF-IDF-{c}.csv", index=False)
+                pd.DataFrame(X.toarray(), columns=feature_names).to_csv(f"{output_path}/TF-IDF-{c}-{risk_level}.csv", index=False)
 
 
 
