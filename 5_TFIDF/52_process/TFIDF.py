@@ -13,8 +13,11 @@ def main():
     output_path = "../54_product"
     vectorizer = TfidfVectorizer(preprocessor=remove_digits, stop_words='english')
     for file in os.listdir(input_path):
-        if file.endswith(".csv") and "Master" not in file:
-            risk_level = re.search(r"\d", file).group()
+        if file.endswith(".csv"):
+            try:
+                risk_level = re.search(r"\d", file).group()
+            except:
+                risk_level = "Joined-Risk"
             with open(os.path.join(input_path, file), "r", encoding="utf-8") as file:
                 data = pd.read_csv(file)
             classes = data["Source"].unique().tolist()
