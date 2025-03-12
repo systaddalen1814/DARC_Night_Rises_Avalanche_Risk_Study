@@ -20,7 +20,7 @@ def main():
             classes = data["Source"].unique().tolist()
             source_to_message : Dict[str, List[str]] = {}
             for c in classes:
-                source_to_message[c] = data[data["Source"] == c]["Message"]
+                source_to_message[c] = [str(x).lower() for x in data[data["Source"] == c]["Message"]]
                 X = vectorizer.fit_transform(source_to_message[c])
                 feature_names = vectorizer.get_feature_names_out()
                 pd.DataFrame(X.toarray(), columns=feature_names).to_csv(f"{output_path}/TF-IDF-{c}.csv", index=False)
