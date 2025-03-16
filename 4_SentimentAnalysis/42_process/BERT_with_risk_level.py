@@ -13,19 +13,28 @@ from wordcloud import WordCloud
 nltk.download('stopwords')
 
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+device
 
+file_paths = {
+    "Low": "/content/avalanche_messages_1_low.csv",
+    "Moderate": "/content/avalanche_messages_2_moderate.csv",
+    "Considerable": "/content/avalanche_messages_3_considerable.csv",
+    "High": "/content/avalanche_messages_4_high.csv",
+    "Extreme": "/content/avalanche_messages_5_extreme.csv",
+}
 
-#loading the data
-file_path = "../../4_NLP/41_input/Master_Avalanche_Data.csv"
-df = pd.read_csv(file_path)
+dataframes = []
+for risk, path in file_paths.items():
+    df = pd.read_csv(path)
+    df["Risk_Level"] = risk
+    dataframes.append(df)
 
+df = pd.concat(dataframes, ignore_index=True)
 
-#BERT model and tokenizer
 MODEL_NAME = "nlptown/bert-base-multilingual-uncased-sentiment"
 tokenizer = BertTokenizer.from_pretrained(MODEL_NAME)
 model = BertForSequenceClassification.from_pretrained(MODEL_NAME).to(device)
 
-#helpers
 def preprocess_text(text):
     text = text.lower()
     text = text.translate(str.maketrans('', '', string.punctuation))
@@ -42,26 +51,24 @@ def get_sentiment(text):
     sentiment_labels = ['Very Negative', 'Negative', 'Neutral', 'Positive', 'Very Positive']
     return sentiment_labels[scores.argmax()]
 
-
-#preprocessing/sentiment
 df['Cleaned_Message'] = df['Message'].apply(preprocess_text)
 df['Sentiment'] = df['Cleaned_Message'].apply(get_sentiment)
 
 sentiment_mapping = {'Very Negative': -2, 'Negative': -1, 'Neutral': 0, 'Positive': 1, 'Very Positive': 2}
 df['Sentiment_Score'] = df['Sentiment'].map(sentiment_mapping)
-correlation = df[['Sentiment_Score', 'Risk_Level']].corr()
 
-
-#visualizations
-plt.figure(figsize=(8, 6))
-sns.heatmap(correlation, annot=True, cmap='coolwarm', fmt='.2f')
-plt.title('Correlation between Sentiment Score and Risk Level')
+plt.figure(figsize=(10, 6))
+sns.countplot(x=df['Sentiment'], hue=df['Risk_Level'], order=['Very Negative', 'Negative', 'Neutral', 'Positive', 'Very Positive'])
+plt.title('Sentiment Distribution Across Risk Levels')
+plt.xticks(rotation=45)
+plt.legend(title='Risk Level')
 plt.show()
 
-plt.figure(figsize=(8, 6))
-sns.countplot(x=df['Sentiment'], order=['Very Negative', 'Negative', 'Neutral', 'Positive', 'Very Positive'])
-plt.title('Distribution of Sentiments')
+plt.figure(figsize=(10, 6))
+sns.countplot(x=df['Sentiment'], hue=df['Source'], order=['Very Negative', 'Negative', 'Neutral', 'Positive', 'Very Positive'])
+plt.title('Sentiment Distribution Across Websites')
 plt.xticks(rotation=45)
+plt.legend(title='Source')
 plt.show()
 
 text_data = ' '.join(df['Cleaned_Message'])
@@ -72,3 +79,6 @@ plt.imshow(wordcloud, interpolation='bilinear')
 plt.axis("off")
 plt.title('Word Cloud of Messages')
 plt.show()
+
+df.to_csv("/processed_data/processed_avalanche_data.csv", index=False)
+
