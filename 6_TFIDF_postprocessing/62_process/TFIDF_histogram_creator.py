@@ -6,6 +6,14 @@ import os
 
 
 def main():
+    plt.rcParams.update({
+        'font.size': 16,  # General font size
+        'axes.titlesize': 20,  # Title font size
+        'axes.labelsize': 16,  # Axis label font size
+        'xtick.labelsize': 14,  # X tick label size
+        'ytick.labelsize': 18  # Y tick label size
+    })
+
     input_path = "../../5_TFIDF/54_product"
     output_path = "../65_datavis"
     files = []
@@ -22,13 +30,24 @@ def main():
                 words_tfidf_avg[col] = avg_tfidf
 
             series : pd.Series = pd.Series(words_tfidf_avg)
-            top30 : pd.Series = series.sort_values(ascending=False).head(30)
+            top30 : pd.Series = series.sort_values(ascending=False).head(15)
             name = os.path.basename(file).strip(".csv")
-            top30.plot(kind="bar", figsize=(20,10), xlabel="Words", ylabel="TFIDF", title=f"{name}")
-            # Plot using a horizontal bar chart for clarity
+            # Create the plot
+            plt.figure(figsize=(10, 8))
+            # Sorting by value in ascending order for a cleaner horizontal bar plot layout
+            top30_sorted = top30.sort_values(ascending=True)
+            bars = plt.barh(top30_sorted.index, top30_sorted.values, color="skyblue", edgecolor="grey")
+
+            plt.title(f"Top 15 TF-IDF Scores for {name}", fontsize=16, fontweight="bold")
+            plt.xlabel("TF-IDF Score", fontsize=14)
+            plt.ylabel("Terms", fontsize=14)
             plt.tight_layout()
 
-            plt.savefig(os.path.join(output_path, f"{name}.png"))
+
+            # Save and close the figure
+            output_file = os.path.join(output_path, f"{name}_top30.png")
+            plt.savefig(output_file)
+            plt.close()
 
 
 
